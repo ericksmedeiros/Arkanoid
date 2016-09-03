@@ -6,19 +6,15 @@ import com.senac.SimpleJava.Graphics.Point;
 import com.senac.SimpleJava.Graphics.Rect;
 import com.senac.SimpleJava.Graphics.Sprite;
 
-public class Bloco extends Sprite {
-
-	private boolean alive = true;
-
-	public Bloco(Color cor) {
-		super(18, 10, cor);
+public class Paddle extends Sprite {
+	private int deltaY = 1;
+	
+	public Paddle() {
+		super(200,3, Color.BLACK);
 	}
 
 	public boolean bateu(Ball ball){
-		// Se o bloco nao esta vivo, nao pode bater...
-		if (!alive)
-			return false;
-		
+
 		Point pos = ball.getPosition();
 		int raio = ball.getRaio();
 		
@@ -29,25 +25,14 @@ public class Bloco extends Sprite {
 		int right = rect.x + rect.width;
 		
 		if (pos.x-raio > right) {
-			return false;
-		}
+			deltaY *= -1;		}
 		if(pos.x+raio < left) {
-			return false;
-		}
+			deltaY *= -1;		}
 		if(pos.y+raio < top) {
-			return false;
-		}
+			deltaY *= -1;		}
 		if(pos.y-raio > bottom) {
-			return false;
-		}
+			deltaY *= -1;		}
 		
-		alive = false;
 		return true;
-	}
-
-	@Override
-	public void draw(Canvas canvas) {
-		if (alive)
-			super.draw(canvas);
 	}
 }
