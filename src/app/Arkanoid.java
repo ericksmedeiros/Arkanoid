@@ -10,7 +10,8 @@ import com.senac.SimpleJava.Graphics.Sprite;
 import com.senac.SimpleJava.Graphics.events.KeyboardAction;
 
 public class Arkanoid extends GraphicApplication {
-
+	
+	
 	private Bloco bloco;
 	private Paddle paddle;
 	private Ball ball;
@@ -20,9 +21,9 @@ public class Arkanoid extends GraphicApplication {
 	@Override
 	protected void draw(Canvas canvas) {
 		canvas.clear();
-		bloco.draw(canvas);
 		ball.draw(canvas);
 		paddle.draw(canvas);
+		bloco.draw(canvas);
 	}
 
 	@Override
@@ -35,7 +36,6 @@ public class Arkanoid extends GraphicApplication {
 		
 		paddle = new Paddle();
 		paddle.setPosition(100,185);
-		
 
 		bloco = new Bloco(Color.RED);
 		bloco.setPosition(20,20);
@@ -58,26 +58,42 @@ public class Arkanoid extends GraphicApplication {
 	protected void loop() {
 		//Testando os limites do eixo X e Y.
 		Point pos = ball.getPosition();
+		Point posPaddle = paddle.getPosition();
+		
 		if (testeLimite(pos.y,0,getResolution().height)) {
 			deltaY *= -1;
 		}
 		if (testeLimite(pos.x,0,getResolution().width)) {
 			deltaX *= -1;
 		}
+		if (testePaddle(posPaddle,pos)){
+			deltaY *= -1;
+		}
+			
 		ball.move(deltaX, deltaY);
 		
 		if (bloco.bateu(ball)) {
 			Console.println("Bateu no Bloco");
 		}
 		if (paddle.bateu(ball)){
-			Console.println("bateu no Paddle");
+			Console.println("PADDLE");
 		}
-		
+			
+			
 		redraw();	
 		
 		
 	}
-	
+
+
+	private boolean testePaddle(Point posPaddle, Point pos) {
+		if(posPaddle == pos) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private boolean testeLimite(double pos, int min, int max) {
 		if(pos > max || pos < min) {
 			return true;
