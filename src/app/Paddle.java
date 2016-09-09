@@ -8,9 +8,16 @@ import com.senac.SimpleJava.Graphics.Sprite;
 public class Paddle extends Sprite {
 	
 	public Paddle() {
-		super(70,3, Color.YELLOW);
+		super(70,6, Color.YELLOW);
 	}
-
+	
+	@Override
+	public Point getPosition() {
+		Point posPaddle = super.getPosition();
+		return new Point(posPaddle.x, posPaddle.y);
+	}
+	
+	
 	public boolean bateu(Ball ball){
 	
 	Point pos = ball.getPosition();

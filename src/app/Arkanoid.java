@@ -19,51 +19,61 @@ public class Arkanoid extends GraphicApplication {
 	private Paddle paddle;
 	private Ball ball;
 	private Image imagem;
+	private Image back;
+	//private Image score;
 	private int deltaY = 1;
 	private int deltaX = 1;
 
 	@Override
 	protected void draw(Canvas canvas) {
 		canvas.clear();
-		canvas.drawImage(imagem,0,0);
+		canvas.drawImage(back, 0, 0);
+		canvas.drawImage(imagem,10,10);
 		ball.draw(canvas);
 		paddle.draw(canvas);
 		bloco.draw(canvas);	
+		//canvas.putText(30, 40, 40, null);//SCORE
 
 	}
 
 	@Override
 	protected void setup() {
-		this.setResolution(Resolution.HIGHRES);
+		this.setResolution(Resolution.MIDRES);
 		this.setFramesPerSecond(30);
-		this.setResolution(Resolution.MSX);
 		
 		try {
+			back = new Image("image/fundo.jpeg");
 			imagem = new Image("image/fase1.png");
+			
+			//score = new Image("Score");//SCORE
+			
 			ball = new Ball();
 			ball.setPosition(130,180);
 			
 			paddle = new Paddle();
-			paddle.setPosition(100,185);
+			paddle.setPosition(100,240);
 
 			bloco = new Bloco(Color.GREEN);
 			bloco.setPosition(20,20);
+		
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}
-		
+
 		bindKeyPressed("LEFT", new KeyboardAction() {
+			Point posPaddle = paddle.getPosition();
 			@Override
 			public void handleEvent() {
-				paddle.move(-3, 0);
+				if (testeLimite(posPaddle.x,0,260)){
+					paddle.move(3, 0);
+				}else paddle.move(-3, 0);
 			}
 		});
 		bindKeyPressed("RIGHT", new KeyboardAction() {
 			@Override
 			public void handleEvent() {
 				paddle.move(3, 0);
-			}
-		});
+			}		});
 	}
 
 	@Override
@@ -71,10 +81,10 @@ public class Arkanoid extends GraphicApplication {
 		//Testando os limites do eixo X e Y.
 		Point pos = ball.getPosition();
 		
-		if (testeLimite(pos.y,0,getResolution().height)) {
+		if (testeLimite(pos.y,15,260)) {
 			deltaY *= -1;
 		}
-		if (testeLimite(pos.x,0,getResolution().width)) {
+		if (testeLimite(pos.x,15,260)) {
 			deltaX *= -1;
 		}
 
