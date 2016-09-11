@@ -11,12 +11,16 @@ public class Paddle extends Sprite {
 		super(70,6, Color.YELLOW);
 	}
 	
+	public int getRaioPaddle() {
+		return getWidth()/2;
+	}
+	
 	@Override
 	public Point getPosition() {
 		Point posPaddle = super.getPosition();
-		return new Point(posPaddle.x, posPaddle.y);
-	}
-	
+		int raio = getRaioPaddle();
+		return new Point(posPaddle.x + raio, posPaddle.y + raio);
+	}	
 	
 	public boolean bateu(Ball ball){
 	
@@ -44,4 +48,5 @@ public class Paddle extends Sprite {
 	
 	return true;
 	}
+	
 }

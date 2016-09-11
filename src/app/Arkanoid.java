@@ -59,27 +59,26 @@ public class Arkanoid extends GraphicApplication {
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}
-
-		bindKeyPressed("LEFT", new KeyboardAction() {
-			Point posPaddle = paddle.getPosition();
+		
+		bindKeyPressed("LEFT", new KeyboardAction() {	
 			@Override
 			public void handleEvent() {
-				if (testeLimite(posPaddle.x,0,260)){
-					paddle.move(3, 0);
-				}else paddle.move(-3, 0);
+				 paddle.move(-3, 0);
 			}
 		});
 		bindKeyPressed("RIGHT", new KeyboardAction() {
 			@Override
 			public void handleEvent() {
 				paddle.move(3, 0);
-			}		});
+			}		
+		});
 	}
 
 	@Override
 	protected void loop() {
 		//Testando os limites do eixo X e Y.
 		Point pos = ball.getPosition();
+//		Point posPaddle = paddle.getPosition();
 		
 		if (testeLimite(pos.y,15,260)) {
 			deltaY *= -1;
@@ -87,6 +86,8 @@ public class Arkanoid extends GraphicApplication {
 		if (testeLimite(pos.x,15,260)) {
 			deltaX *= -1;
 		}
+		
+		testeLimitePaddle();
 
 		ball.move(deltaX, deltaY);
 		
@@ -100,6 +101,40 @@ public class Arkanoid extends GraphicApplication {
 						
 		redraw();	
 
+	}
+
+	private void testeLimitePaddle() {
+		Point posPaddle = paddle.getPosition();
+
+		if (testeLimite(posPaddle.x,47,229)){
+			bindKeyPressed("RIGHT", new KeyboardAction() {
+				@Override
+				public void handleEvent() {
+					paddle.move(0, 0);
+				}		
+			});
+			bindKeyPressed("LEFT", new KeyboardAction() {	
+				@Override
+				public void handleEvent() {
+					 paddle.move(-3, 0);
+				}
+			});
+		}
+		
+		if (testeLimite(posPaddle.x,47,239)){
+			bindKeyPressed("LEFT", new KeyboardAction() {	
+				@Override
+				public void handleEvent() {
+					 paddle.move(0, 0);
+				}
+			});
+			bindKeyPressed("RIGHT", new KeyboardAction() {
+				@Override
+				public void handleEvent() {
+					paddle.move(3, 0);
+				}	
+			});
+		}
 	}
 
 	private boolean testeLimite(double pos, int min, int max) {
