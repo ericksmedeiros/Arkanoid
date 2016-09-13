@@ -2,6 +2,7 @@ package app;
 
 import com.senac.SimpleJava.Graphics.Color;
 import com.senac.SimpleJava.Graphics.Point;
+import com.senac.SimpleJava.Graphics.Rect;
 import com.senac.SimpleJava.Graphics.Sprite;
 
 public class Ball extends Sprite {

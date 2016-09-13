@@ -14,8 +14,7 @@ import com.senac.SimpleJava.Graphics.events.KeyboardAction;
 
 public class Arkanoid extends GraphicApplication {
 	
-
-	private Bloco bloco;
+	private Bloco blocos[] = new Bloco[65];
 	private Paddle paddle;
 	private Ball ball;
 	private Image imagem;
@@ -31,7 +30,9 @@ public class Arkanoid extends GraphicApplication {
 		canvas.drawImage(imagem,10,10);
 		ball.draw(canvas);
 		paddle.draw(canvas);
-		bloco.draw(canvas);	
+		for (int i = 0; i < blocos.length; i++) {
+			blocos[i].draw(canvas);
+		}	
 		//canvas.putText(30, 40, 40, null);//SCORE
 
 	}
@@ -39,7 +40,7 @@ public class Arkanoid extends GraphicApplication {
 	@Override
 	protected void setup() {
 		this.setResolution(Resolution.MIDRES);
-		this.setFramesPerSecond(30);
+		this.setFramesPerSecond(20);
 		
 		try {
 			back = new Image("image/fundo.jpeg");
@@ -53,32 +54,29 @@ public class Arkanoid extends GraphicApplication {
 			paddle = new Paddle();
 			paddle.setPosition(100,240);
 
-			bloco = new Bloco(Color.GREEN);
-			bloco.setPosition(20,20);
+			int indice = 0, positionBlocox = 11, positionBlocoy = 14;
+			for (int i = 0; i <= 4; i++){
+				for (int j = 0; j < 13; j++) {
+					blocos[indice] = new Bloco(Color.LIGHTGRAY);
+					blocos[indice].setPosition(positionBlocoy,positionBlocox);
+					indice++;
+					positionBlocoy = positionBlocoy + 19;
+				}
+				positionBlocoy = 14;
+				positionBlocox = positionBlocox + 11;
+			}		
 		
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}
 		
-		bindKeyPressed("LEFT", new KeyboardAction() {	
-			@Override
-			public void handleEvent() {
-				 paddle.move(-3, 0);
-			}
-		});
-		bindKeyPressed("RIGHT", new KeyboardAction() {
-			@Override
-			public void handleEvent() {
-				paddle.move(3, 0);
-			}		
-		});
+		teclado();
 	}
 
 	@Override
 	protected void loop() {
 		//Testando os limites do eixo X e Y.
 		Point pos = ball.getPosition();
-//		Point posPaddle = paddle.getPosition();
 		
 		if (testeLimite(pos.y,15,260)) {
 			deltaY *= -1;
@@ -87,15 +85,20 @@ public class Arkanoid extends GraphicApplication {
 			deltaX *= -1;
 		}
 		
+		teclado();
 		testeLimitePaddle();
 
 		ball.move(deltaX, deltaY);
 		
-		if (bloco.bateu(ball)) {
-			Console.println("Bateu no Bloco");
+		for (int i = 0; i < blocos.length; i++) {
+			if (blocos[i].bateu(ball)) {
+				Console.println("Bateu no Bloco");
+				deltaY *= -1;
+			}
 		}
+		
 		if (paddle.bateu(ball)){
-			Console.println("PADDLE");
+			Console.println("Bateu no Paddle");
 			deltaY *= -1;
 		}
 						
@@ -135,6 +138,21 @@ public class Arkanoid extends GraphicApplication {
 				}	
 			});
 		}
+	}
+	
+	private void teclado() {
+		bindKeyPressed("LEFT", new KeyboardAction() {	
+			@Override
+			public void handleEvent() {
+				 paddle.move(-3, 0);
+			}
+		});
+		bindKeyPressed("RIGHT", new KeyboardAction() {
+			@Override
+			public void handleEvent() {
+				paddle.move(3, 0);
+			}		
+		});		
 	}
 
 	private boolean testeLimite(double pos, int min, int max) {

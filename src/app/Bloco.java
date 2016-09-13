@@ -11,7 +11,7 @@ public class Bloco extends Sprite {
 	private boolean alive = true;
 
 	public Bloco(Color cor) {
-		super(30, 10, cor);
+		super(18, 10, cor);
 	}
 
 	public boolean bateu(Ball ball){
