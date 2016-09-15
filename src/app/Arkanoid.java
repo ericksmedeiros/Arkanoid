@@ -19,9 +19,10 @@ public class Arkanoid extends GraphicApplication {
 	private Ball ball;
 	private Image imagem;
 	private Image back;
-	//private Image score;
+	private int score = 0;
 	private int deltaY = 1;
 	private int deltaX = 1;
+	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, recorde = 0;
 
 	@Override
 	protected void draw(Canvas canvas) {
@@ -33,20 +34,23 @@ public class Arkanoid extends GraphicApplication {
 		for (int i = 0; i < blocos.length; i++) {
 			blocos[i].draw(canvas);
 		}	
-		//canvas.putText(30, 40, 40, null);//SCORE
-
+		canvas.putText(275, 10, 15, "Pontuação: "+score);
+		canvas.putText(275, 60, 15, "Recordes:");		
+		canvas.putText(275, 75, 15, "1º Lugar: "+recorde1);
+		canvas.putText(275, 90, 15, "2º Lugar: "+recorde2);
+		canvas.putText(275, 105, 15, "3º Lugar: "+recorde3);
 	}
 
 	@Override
 	protected void setup() {
 		this.setResolution(Resolution.MIDRES);
-		this.setFramesPerSecond(20);
+		this.setFramesPerSecond(60);
 		
 		try {
-			back = new Image("image/fundo.jpeg");
+			back = new Image("image/fundo.jpg");
 			imagem = new Image("image/fase1.png");
 			
-			//score = new Image("Score");//SCORE
+			//score = new Cenario();
 			
 			ball = new Ball();
 			ball.setPosition(130,180);
@@ -57,7 +61,7 @@ public class Arkanoid extends GraphicApplication {
 			int indice = 0, positionBlocox = 11, positionBlocoy = 14;
 			for (int i = 0; i <= 4; i++){
 				for (int j = 0; j < 13; j++) {
-					blocos[indice] = new Bloco(Color.LIGHTGRAY);
+					blocos[indice] = new Bloco(Color.GREEN);
 					blocos[indice].setPosition(positionBlocoy,positionBlocox);
 					indice++;
 					positionBlocoy = positionBlocoy + 19;
@@ -85,6 +89,10 @@ public class Arkanoid extends GraphicApplication {
 			deltaX *= -1;
 		}
 		
+		if (ball.morreu(ball)){
+			Console.print("Game Over!");
+		}
+		
 		teclado();
 		testeLimitePaddle();
 
@@ -94,6 +102,7 @@ public class Arkanoid extends GraphicApplication {
 			if (blocos[i].bateu(ball)) {
 				Console.println("Bateu no Bloco");
 				deltaY *= -1;
+				score += 5;
 			}
 		}
 		
