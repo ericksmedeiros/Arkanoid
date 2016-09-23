@@ -24,7 +24,7 @@ public class Ball extends Sprite {
 		int r = getRaio();
 		return new Point(pos.x + r, pos.y + r);
 	}
-	
+	/*
 	public boolean morreu(Ball ball){
 		if (!alive)
 			return false;
@@ -41,7 +41,7 @@ public class Ball extends Sprite {
 		
 		alive = false;
 		return true;
-	}
+	}*/
 	
 
 	@Override

@@ -22,8 +22,8 @@ public class Arkanoid extends GraphicApplication {
 	private int score = 0;
 	private int deltaY = 1;
 	private int deltaX = 1;
-	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, recorde = 0;
-
+	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, recorde = 0,  indiceBlocos = 0;
+	
 	@Override
 	protected void draw(Canvas canvas) {
 		canvas.clear();
@@ -58,12 +58,12 @@ public class Arkanoid extends GraphicApplication {
 			paddle = new Paddle();
 			paddle.setPosition(100,240);
 
-			int indice = 0, positionBlocox = 11, positionBlocoy = 14;
+			int positionBlocox = 11, positionBlocoy = 14;
 			for (int i = 0; i <= 4; i++){
 				for (int j = 0; j < 13; j++) {
-					blocos[indice] = new Bloco(Color.GREEN);
-					blocos[indice].setPosition(positionBlocoy,positionBlocox);
-					indice++;
+					blocos[indiceBlocos] = new Bloco(coresBlocos());
+					blocos[indiceBlocos].setPosition(positionBlocoy,positionBlocox);
+					indiceBlocos++;
 					positionBlocoy = positionBlocoy + 19;
 				}
 				positionBlocoy = 14;
@@ -88,10 +88,10 @@ public class Arkanoid extends GraphicApplication {
 		if (testeLimite(pos.x,15,260)) {
 			deltaX *= -1;
 		}
-		
+		/*
 		if (ball.morreu(ball)){
 			Console.print("Game Over!");
-		}
+		}*/
 		
 		teclado();
 		testeLimitePaddle();
@@ -172,4 +172,16 @@ public class Arkanoid extends GraphicApplication {
 		}
 	}
 	
+	private Color coresBlocos() {
+		if (indiceBlocos <= 12)
+			return Color.BLACK;
+		if (indiceBlocos <12 || indiceBlocos <=25)
+			return Color.DARKGRAY;
+		if (indiceBlocos <25 || indiceBlocos <=38)
+			return Color.GRAY;
+		if (indiceBlocos <36 || indiceBlocos <=51)
+			return Color.LIGHTGRAY;
+		else return Color.WHITE;
+	}
+
 }
