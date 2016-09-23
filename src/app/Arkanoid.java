@@ -19,10 +19,9 @@ public class Arkanoid extends GraphicApplication {
 	private Ball ball;
 	private Image imagem;
 	private Image back;
-	private int score = 0;
 	private int deltaY = 1;
 	private int deltaX = 1;
-	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, recorde = 0,  indiceBlocos = 0;
+	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, score = 0,  indiceBlocos = 0;
 	
 	@Override
 	protected void draw(Canvas canvas) {
@@ -51,9 +50,10 @@ public class Arkanoid extends GraphicApplication {
 			imagem = new Image("image/fase1.png");
 			
 			//score = new Cenario();
+
 			
 			ball = new Ball();
-			ball.setPosition(130,180);
+			ball.setPosition(130,230);
 			
 			paddle = new Paddle();
 			paddle.setPosition(100,240);
@@ -79,7 +79,6 @@ public class Arkanoid extends GraphicApplication {
 
 	@Override
 	protected void loop() {
-		//Testando os limites do eixo X e Y.
 		Point pos = ball.getPosition();
 		
 		if (testeLimite(pos.y,15,260)) {
@@ -88,11 +87,10 @@ public class Arkanoid extends GraphicApplication {
 		if (testeLimite(pos.x,15,260)) {
 			deltaX *= -1;
 		}
-		/*
-		if (ball.morreu(ball)){
-			Console.print("Game Over!");
-		}*/
 		
+	//	if (ball.getPosition ){
+		//	Console.print("Ball morreu");
+		//}
 		teclado();
 		testeLimitePaddle();
 

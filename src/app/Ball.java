@@ -22,31 +22,29 @@ public class Ball extends Sprite {
 	public Point getPosition() {
 		Point pos = super.getPosition();
 		int r = getRaio();
-		return new Point(pos.x + r, pos.y + r);
+	//	Rect rect = getBounds();
+	//	int bottom = rect.y + rect.height;
+		
+		if (pos.y - r == 255){
+			alive = false;
+			return null;
+		}
+		else return new Point(pos.x + r, pos.y + r);
 	}
 	/*
-	public boolean morreu(Ball ball){
-		if (!alive)
-			return false;
-		
-		Point pos = ball.getPosition();
-		int raio = ball.getRaio();
-		
+	public boolean ballMorreu(Ball ball) {
+		Point pos = super.getPosition();
+		int r = getRaio();
 		Rect rect = getBounds();
 		int bottom = rect.y + rect.height;
-
-		if(pos.y-raio > bottom) {
-			return false;
-		}
 		
-		alive = false;
-		return true;
+		if (pos.y - r >= bottom){
+			return(0,0);
+		}
 	}*/
-	
-
 	@Override
 	public void draw(Canvas canvas) {
-		if (alive)
+		if (alive = true)
 			super.draw(canvas);
 	}
 }
