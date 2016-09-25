@@ -18,46 +18,53 @@ public class Arkanoid extends GraphicApplication {
 	private Paddle paddle;
 	private Ball ball;
 	private Image imagem;
+//	private Cenario back;
 	private Image back;
 	private int deltaY = 1;
 	private int deltaX = 1;
-	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, score = 0,  indiceBlocos = 0;
+	private Score score;
+	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, indiceBlocos = 0;
+	private int fase1 = 0;
 	
-	@Override
+	@Override 
 	protected void draw(Canvas canvas) {
-		canvas.clear();
+		canvas.clear();		
 		canvas.drawImage(back, 0, 0);
+	//	back.drawImage(back, 0, 0);
 		canvas.drawImage(imagem,10,10);
 		ball.draw(canvas);
 		paddle.draw(canvas);
 		for (int i = 0; i < blocos.length; i++) {
 			blocos[i].draw(canvas);
-		}	
-		canvas.putText(275, 10, 15, "Pontuação: "+score);
+		}
+	 	canvas.putText(275, 10, 15, "Pontuação: "+score.getScore());
 		canvas.putText(275, 60, 15, "Recordes:");		
 		canvas.putText(275, 75, 15, "1º Lugar: "+recorde1);
 		canvas.putText(275, 90, 15, "2º Lugar: "+recorde2);
 		canvas.putText(275, 105, 15, "3º Lugar: "+recorde3);
+		//while(fase1 == 0){
+		//canvas.putText(150, 10, 30, "Aperte Start");
+		//}
 	}
-
+	
 	@Override
 	protected void setup() {
 		this.setResolution(Resolution.MIDRES);
 		this.setFramesPerSecond(60);
+		this.setTitle("Arkanoid 5.0");
 		
+		while(fase1 == 0){
+			inicioGame();
+		}
 		try {
-			back = new Image("image/fundo.jpg");
-			imagem = new Image("image/fase1.png");
-			
-			//score = new Cenario();
-
-			
-			ball = new Ball();
-			ball.setPosition(130,230);
-			
-			paddle = new Paddle();
-			paddle.setPosition(100,240);
-
+				score = new Score();
+				//back = new Cenario("image/fundo.jpg");
+				back = new Image("image/fundo.jpg");
+				imagem = new Image("image/fase1.png");
+				ball = new Ball();
+				ball.setPosition(130,230);
+				paddle = new Paddle();
+				paddle.setPosition(100,240);
 			int positionBlocox = 11, positionBlocoy = 14;
 			for (int i = 0; i <= 4; i++){
 				for (int j = 0; j < 13; j++) {
@@ -69,11 +76,9 @@ public class Arkanoid extends GraphicApplication {
 				positionBlocoy = 14;
 				positionBlocox = positionBlocox + 11;
 			}		
-		
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}
-		
 		teclado();
 	}
 
@@ -100,7 +105,7 @@ public class Arkanoid extends GraphicApplication {
 			if (blocos[i].bateu(ball)) {
 				Console.println("Bateu no Bloco");
 				deltaY *= -1;
-				score += 5;
+				score.setScore(5);
 			}
 		}
 		
@@ -111,6 +116,17 @@ public class Arkanoid extends GraphicApplication {
 						
 		redraw();	
 
+	}
+	
+	private void inicioGame() {
+		
+		bindKeyPressed("SPACE", new KeyboardAction() {	
+			@Override
+			public void handleEvent() {
+				 fase1++;
+			}
+		});
+		
 	}
 
 	private void testeLimitePaddle() {
@@ -161,7 +177,7 @@ public class Arkanoid extends GraphicApplication {
 			}		
 		});		
 	}
-
+	
 	private boolean testeLimite(double pos, int min, int max) {
 		if(pos > max || pos < min) {
 			return true;

@@ -48,5 +48,5 @@ public class Paddle extends Sprite {
 	
 	return true;
 	}
-	
+
 }

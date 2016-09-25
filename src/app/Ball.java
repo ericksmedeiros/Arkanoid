@@ -26,22 +26,14 @@ public class Ball extends Sprite {
 	//	int bottom = rect.y + rect.height;
 		
 		if (pos.y - r == 255){
-			alive = false;
-			return null;
+			return new Point(0,0);
 		}
-		else return new Point(pos.x + r, pos.y + r);
+		return new Point(pos.x + r, pos.y + r);
 	}
-	/*
+	
 	public boolean ballMorreu(Ball ball) {
-		Point pos = super.getPosition();
-		int r = getRaio();
-		Rect rect = getBounds();
-		int bottom = rect.y + rect.height;
-		
-		if (pos.y - r >= bottom){
-			return(0,0);
-		}
-	}*/
+		return alive = false;
+	}
 	@Override
 	public void draw(Canvas canvas) {
 		if (alive = true)

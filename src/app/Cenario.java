@@ -1,13 +1,14 @@
 package app;
 
+import java.io.IOException;
+
+import com.senac.SimpleJava.Graphics.Color;
+import com.senac.SimpleJava.Graphics.GraphicApplication;
 import com.senac.SimpleJava.Graphics.Image;
 import com.senac.SimpleJava.Graphics.Sprite;
 
-//public class Cenario extends Sprite{
+public class Cenario{
 
-	/*public Cenario() {
-		super();
-	}*/
+	private Image back;
 
-
-//}
+}
