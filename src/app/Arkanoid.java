@@ -18,6 +18,7 @@ public class Arkanoid extends GraphicApplication {
 	private Paddle paddle;
 	private Ball ball;
 	private Image imagem;
+//	private Image imagem;
 //	private Cenario back;
 	private Image back;
 	private int deltaY = 1;
@@ -31,7 +32,8 @@ public class Arkanoid extends GraphicApplication {
 		canvas.clear();		
 		canvas.drawImage(back, 0, 0);
 	//	back.drawImage(back, 0, 0);
-		canvas.drawImage(imagem,10,10);
+	//	canvas.drawImage(imagem,10,10);
+		imagem.asAWTImage();
 		ball.draw(canvas);
 		paddle.draw(canvas);
 		for (int i = 0; i < blocos.length; i++) {
@@ -60,22 +62,24 @@ public class Arkanoid extends GraphicApplication {
 				score = new Score();
 				//back = new Cenario("image/fundo.jpg");
 				back = new Image("image/fundo.jpg");
+	//			imagem = new Image("image/fase1.png");
 				imagem = new Image("image/fase1.png");
 				ball = new Ball();
 				ball.setPosition(130,230);
 				paddle = new Paddle();
 				paddle.setPosition(100,240);
-			int positionBlocox = 11, positionBlocoy = 14;
-			for (int i = 0; i <= 4; i++){
-				for (int j = 0; j < 13; j++) {
-					blocos[indiceBlocos] = new Bloco(coresBlocos());
-					blocos[indiceBlocos].setPosition(positionBlocoy,positionBlocox);
-					indiceBlocos++;
-					positionBlocoy = positionBlocoy + 19;
-				}
-				positionBlocoy = 14;
-				positionBlocox = positionBlocox + 11;
-			}		
+			
+				int positionBlocox = 11, positionBlocoy = 14;
+					for (int i = 0; i <= 4; i++){
+						for (int j = 0; j < 13; j++) {
+							blocos[indiceBlocos] = new Bloco(coresBlocos());
+							blocos[indiceBlocos].setPosition(positionBlocoy,positionBlocox);
+							indiceBlocos++;
+							positionBlocoy = positionBlocoy + 19;
+						}
+						positionBlocoy = 14;
+						positionBlocox = positionBlocox + 11;
+					}		
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		}
@@ -92,10 +96,11 @@ public class Arkanoid extends GraphicApplication {
 		if (testeLimite(pos.x,15,260)) {
 			deltaX *= -1;
 		}
-		
-	//	if (ball.getPosition ){
-		//	Console.print("Ball morreu");
-		//}
+	//	
+		if (ball.morreu(ball)){
+			Console.print("Ball morreu");
+		}
+	//	
 		teclado();
 		testeLimitePaddle();
 
@@ -104,8 +109,8 @@ public class Arkanoid extends GraphicApplication {
 		for (int i = 0; i < blocos.length; i++) {
 			if (blocos[i].bateu(ball)) {
 				Console.println("Bateu no Bloco");
-				deltaY *= -1;
-				score.setScore(5);
+				deltaY *= -1; 
+				score.setScore(score.getScore()+5);
 			}
 		}
 		

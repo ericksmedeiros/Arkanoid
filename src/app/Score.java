@@ -8,7 +8,6 @@ public class Score {
 		super ();
 	}
 	
-	
 	public Score(int score) {
 		this.score = score;
 	}
