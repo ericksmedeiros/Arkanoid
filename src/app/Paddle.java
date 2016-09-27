@@ -7,8 +7,20 @@ import com.senac.SimpleJava.Graphics.Sprite;
 
 public class Paddle extends Sprite {
 	
+	private static int padrao = 70;
+	private Cenario nivel;
+	
 	public Paddle() {
-		super(70,6, Color.YELLOW);
+		super(padrao,6, Color.YELLOW);
+	}
+	
+	public void nivel(){
+		if (nivel.getNivel()==2){
+			padrao = 60;
+		}
+		if (nivel.getNivel()==3){
+			padrao = 50;
+		}
 	}
 	
 	public int getRaioPaddle() {

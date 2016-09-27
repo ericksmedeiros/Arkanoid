@@ -9,7 +9,6 @@ import com.senac.SimpleJava.Graphics.GraphicApplication;
 import com.senac.SimpleJava.Graphics.Image;
 import com.senac.SimpleJava.Graphics.Point;
 import com.senac.SimpleJava.Graphics.Resolution;
-import com.senac.SimpleJava.Graphics.Sprite;
 import com.senac.SimpleJava.Graphics.events.KeyboardAction;
 
 public class Arkanoid extends GraphicApplication {
@@ -18,35 +17,34 @@ public class Arkanoid extends GraphicApplication {
 	private Paddle paddle;
 	private Ball ball;
 	private Image imagem;
-//	private Image imagem;
-//	private Cenario back;
 	private Image back;
-	private int deltaY = 1;
-	private int deltaX = 1;
-	private Score score;
-	private int recorde1 = 0, recorde2 = 0, recorde3 = 0, indiceBlocos = 0;
+	private Image coracao1, coracao2, coracao3;
+	private Cenario score, recorde1, recorde2, recorde3, nivel, vidas;
+	private int indiceBlocos = 0, deltaX = 1, deltaY = 1;
 	private int fase1 = 0;
 	
 	@Override 
 	protected void draw(Canvas canvas) {
 		canvas.clear();		
 		canvas.drawImage(back, 0, 0);
-	//	back.drawImage(back, 0, 0);
-	//	canvas.drawImage(imagem,10,10);
-		imagem.asAWTImage();
+		canvas.drawImage(imagem,10,10);
 		ball.draw(canvas);
 		paddle.draw(canvas);
 		for (int i = 0; i < blocos.length; i++) {
 			blocos[i].draw(canvas);
 		}
-	 	canvas.putText(275, 10, 15, "Pontuação: "+score.getScore());
-		canvas.putText(275, 60, 15, "Recordes:");		
-		canvas.putText(275, 75, 15, "1º Lugar: "+recorde1);
-		canvas.putText(275, 90, 15, "2º Lugar: "+recorde2);
-		canvas.putText(275, 105, 15, "3º Lugar: "+recorde3);
-		//while(fase1 == 0){
-		//canvas.putText(150, 10, 30, "Aperte Start");
-		//}
+	 	canvas.putText(270, 10, 20, "Nível: "+nivel.getNivel());
+	 	canvas.putText(270, 40, 18, "Pontuação: "+score.getScore());
+		canvas.putText(270, 70, 20, "Vidas: "+vidas.getVidas());		
+		canvas.putText(270, 140, 20, "Recordes:");		
+		canvas.putText(270, 170, 18, "1º Lugar: "+recorde1.getRecorde1());
+		canvas.putText(270, 190, 18, "2º Lugar: "+recorde2.getRecorde2());
+		canvas.putText(270, 210, 18, "3º Lugar: "+recorde3.getRecorde3());
+		
+		if (vidas.getVidas()>=1) {canvas.drawImage(coracao1, 270, 100);}
+		if (vidas.getVidas()>=2) {canvas.drawImage(coracao2, 300, 100);}
+		if (vidas.getVidas()==3) {canvas.drawImage(coracao3, 330, 100);}
+
 	}
 	
 	@Override
@@ -59,16 +57,23 @@ public class Arkanoid extends GraphicApplication {
 			inicioGame();
 		}
 		try {
-				score = new Score();
-				//back = new Cenario("image/fundo.jpg");
+				vidas = new Cenario();
+				nivel = new Cenario();
+				score = new Cenario();
 				back = new Image("image/fundo.jpg");
-	//			imagem = new Image("image/fase1.png");
 				imagem = new Image("image/fase1.png");
 				ball = new Ball();
 				ball.setPosition(130,230);
 				paddle = new Paddle();
 				paddle.setPosition(100,240);
-			
+				recorde1 = new Cenario();
+				recorde2 = new Cenario();
+				recorde3 = new Cenario();
+
+				coracao1 = new Image("image/coracao1.jpg");
+				coracao2 = new Image("image/coracao2.jpg");
+				coracao3 = new Image("image/coracao3.jpg");
+				
 				int positionBlocox = 11, positionBlocoy = 14;
 					for (int i = 0; i <= 4; i++){
 						for (int j = 0; j < 13; j++) {
@@ -96,11 +101,7 @@ public class Arkanoid extends GraphicApplication {
 		if (testeLimite(pos.x,15,260)) {
 			deltaX *= -1;
 		}
-	//	
-		if (ball.morreu(ball)){
-			Console.print("Ball morreu");
-		}
-	//	
+
 		teclado();
 		testeLimitePaddle();
 
@@ -114,10 +115,18 @@ public class Arkanoid extends GraphicApplication {
 			}
 		}
 		
+		if(score.getScore()>320){
+			nivel.setNivel(nivel.getScore()+1);			
+		}
+		if(score.getScore()>740){
+			nivel.setNivel(nivel.getScore()+1);
+		}
+		
 		if (paddle.bateu(ball)){
 			Console.println("Bateu no Paddle");
 			deltaY *= -1;
 		}
+		
 						
 		redraw();	
 
